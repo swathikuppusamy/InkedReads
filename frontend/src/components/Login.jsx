@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios'
 import bgImage from '../assets/books-shelf.jpg';
@@ -67,7 +68,7 @@ const Login = () => {
             Login
           </button>
           <Link to="/forgotpassword"className='text-md  text-gray-500' >Forgot password?</Link>
-          <p className='block text-md font-medium text-gray-300'>Don't have an Account? <Link className='text-md text-gray-800' to="/signup">Sign Up</Link></p> 
+          <p className='block text-md font-medium text-gray-300'>Don&apos;t have an Account? <Link className='text-md text-gray-800' to="/signup">Sign Up</Link></p> 
         
         </form>
       </div>

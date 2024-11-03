@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BooksSearch = () => {
   const [query, setQuery] = useState('');
@@ -10,6 +12,7 @@ const BooksSearch = () => {
   const [totalBooks, setTotalBooks] = useState(0);
   const booksPerPage = 12;
   const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
+  const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
 
   const categories = [
@@ -108,6 +111,12 @@ const BooksSearch = () => {
   };
 
   const handleAddToFavorites = (book) => {
+    if (!userId) {
+      alert("You need to log in to add to favorites.");
+      navigate('/login'); // Redirect to login page
+      return;
+    }
+
     const bookData = {
       id: book.id,
       title: book.volumeInfo.title,
@@ -128,15 +137,23 @@ const BooksSearch = () => {
         book: bookData
       })
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to add favorite');
+      }
+      return response.json();
+    })
     .then(data => {
       console.log('Book added to favorites:', data);
       alert('Book added to favorites');
     })
     .catch(error => {
       console.error('Error adding book to favorites:', error);
+      alert('Error adding to favorites');
     });
   };
+
+  
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-4">

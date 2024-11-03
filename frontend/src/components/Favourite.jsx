@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 
@@ -23,23 +24,24 @@ const FavPage = () => {
       const fetchFavorites = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:3000/favourites/${userId}`);
+          const response = await fetch(`http://localhost:5057/favorites/${userId}`);
           if (!response.ok) {
-            throw new Error('Failed to fetch favorites');
+            throw new Error(`Failed to fetch favorites: ${response.status} ${response.statusText}`);
           }
           const data = await response.json();
           setFavorites(data);
         } catch (err) {
+          console.error('Error fetching favorites:', err);
           setError(err.message);
         } finally {
           setLoading(false);
         }
       };
-
+  
       fetchFavorites();
     }
   }, [userId]);
-
+  
   const handleDelete = async (favoriteId) => {
     try {
       const response = await fetch(`http://localhost:5057/favorites/${favoriteId}`, {
