@@ -20,7 +20,9 @@ router.post('/signup',async(req,res)=>{
         password:hashPassword,
     })
     await newuser.save()
-    return res.json({status:true,message : "record registered"})
+    res.status(201).json({ message: 'User created successfully', userId: newuser._id });
+
+   // return res.json({status:true,message : "record registered"})
 
 
 })
