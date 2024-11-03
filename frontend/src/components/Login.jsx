@@ -67,7 +67,7 @@ const Login = () => {
             Login
           </button>
           <Link to="/forgotpassword"className='text-md  text-gray-500' >Forgot password?</Link>
-          <p className='block text-md font-medium text-gray-300'>Don't have an Account? <Link className='text-md text-gray-800' to="/signup">Sign Up</Link></p> 
+          <p className='block text-md font-medium text-gray-300'>Don't have an Account? <Link className='text-md text-gray-800' to="/">Sign Up</Link></p> 
         
         </form>
       </div>
