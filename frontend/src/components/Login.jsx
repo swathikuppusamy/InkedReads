@@ -16,10 +16,11 @@ const Login = () => {
            // console.log(response)
            if(response.data.status)
            {
-           navigate('/')
+           navigate('/home')
            }
-        }).catch(err=>{
-            console.log(err)
+        }).catch(error =>{
+            console.error("Invalid email and password",error)
+            alert("Invalid Email and Password")
         })
     }
     

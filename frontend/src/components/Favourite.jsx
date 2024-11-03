@@ -9,6 +9,7 @@ const FavPage = () => {
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
+    console.log(storedUserId)
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
@@ -22,7 +23,7 @@ const FavPage = () => {
       const fetchFavorites = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:5057/favorites/${userId}`);
+          const response = await fetch(`http://localhost:3000/favourites/${userId}`);
           if (!response.ok) {
             throw new Error('Failed to fetch favorites');
           }

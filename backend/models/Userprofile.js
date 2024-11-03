@@ -16,6 +16,6 @@ const userSchema = new mongoose.Schema({
     following: { type: Number, default: 0 }, // Add following count with default value
 });
 
-const Userprofile = mongoose.model('User1', userSchema);
+const Userprofile = mongoose.model('Userprofile', userSchema);
 
 export default Userprofile;

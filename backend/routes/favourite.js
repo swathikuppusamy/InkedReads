@@ -29,6 +29,7 @@ router.get('/:userId', async (req, res) => {
     res.status(200).json(favorites);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching favorite books', error });
+    console.log(error)
   }
 });
 

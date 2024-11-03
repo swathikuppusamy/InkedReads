@@ -19,7 +19,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (userId) {
-            fetch(`http://localhost:5057/api/profile/${userId}`)
+            fetch(`http://localhost:3000/api/profile-settings/${userId}`)
                 .then(res => res.json())
                 .then(data => {
                     setProfile({
@@ -67,7 +67,7 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:5057/api/profile', {
+        fetch('http://localhost:3000/api/profile-settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

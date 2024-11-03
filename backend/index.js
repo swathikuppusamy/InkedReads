@@ -56,7 +56,7 @@ mongoose.connect(process.env.MONGO_URL, {
 app.use('/auth', UserRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/feedback', feedbackRouter);
-app.use('/profile', userprofileRouter);
+app.use('/profile-settings', userprofileRouter);
 
 // Start server
 app.listen(process.env.PORT, () => {

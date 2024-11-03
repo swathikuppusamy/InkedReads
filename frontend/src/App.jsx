@@ -23,14 +23,15 @@ function App() {
     
     <Routes>
     
-      <Route path='/signup' element={<Signup/>}></Route>
+      <Route path='/' element={<Signup/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/forgotpassword' element={<ForgotPassword/>}></Route>
       <Route path='/resetpassword/:token' element={<ResetPassword/>}></Route>
       </Routes>
       <Navbar/>
       <Routes>
-      <Route path='/' element={<Home/>}></Route>
+
+      <Route path='/home' element={<Home/>}></Route>
       <Route path='/dashboard' element={<Dashboard/>}></Route>
       <Route path='/read-books' element={<Readbooks/>}></Route>
       <Route path='/search-books' element={<BooksSearch/>}></Route>
