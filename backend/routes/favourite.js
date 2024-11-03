@@ -1,4 +1,4 @@
-// routes/favorite.js
+// routes/favourite.js
 import express from 'express';
 import Favorite from '../models/FavouriteBook.js';
 
