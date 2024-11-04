@@ -14,11 +14,13 @@ const Navbar = () => {
 
 
     const handleLogout=()=>{
-        axios.get('http://localhost:3000/auth/logout')
+        axios.get('http://localhost:5057/api/auth/logout')
         .then(res=>{
             if(res.data.status){
+                
                 setIsDropdownOpen(false);
-                navigate('/login')
+                alert("You are going to logged out")
+                navigate('/')
             }
         }).catch(err=>{
             console.log(err)
@@ -27,7 +29,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className='bg-gray-700 py-5'>
+    <nav className='bg-gray-700 py-5 '>
       <div className='flex justify-between items-center text-white px-6 md:px-20'>
         <div>
           <span className='text-3xl font-bold flex items-center'><FaBook className='mr-2' />InkedReads</span>
@@ -35,20 +37,20 @@ const Navbar = () => {
         
         {/* Desktop Links */}
         <div className='hidden md:flex space-x-4'>
-          <Link to='/' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
+          <Link to='/award' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
             Home
           </Link>
-          <Link to='/read-books' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
+          <Link to='/bookreader' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
             Read Books
           </Link>
-          <Link to='/search-books' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
+          <Link to='/book' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
             Search Books
           </Link>
-          <Link to='/favourites' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
+          <Link to='/favorite' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
             Favourites
           </Link>
           <Link to='/feedback' className='hover:bg-gray-800 hover:shadow-lg transition-all duration-300 py-1.5 px-4 rounded'>
-            Feedback
+            Your Feedbacks
           </Link>
           <div className='relative'>
             <button 
@@ -63,11 +65,29 @@ const Navbar = () => {
                 <ul className='py-2'>
                   <li>
                     <Link 
-                      to='/profile-settings' // Replace with your profile settings route
+                      to='/profile' // Replace with your profile settings route
                       className='block px-4 py-2 text-gray-300 hover:bg-gray-700'
                       onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
                     >
                       Profile Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      to='/recommendations' // Replace with your profile settings route
+                      className='block px-4 py-2 text-gray-300 hover:bg-gray-700'
+                      onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
+                    >
+                      Recommendations
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      to='/feedform' // Replace with your profile settings route
+                      className='block px-4 py-2 text-gray-300 hover:bg-gray-700'
+                      onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
+                    >
+                      Give Feedback
                     </Link>
                   </li>
                   <li>

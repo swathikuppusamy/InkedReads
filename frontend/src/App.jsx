@@ -1,49 +1,42 @@
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
-import Signup from './components/Signup'
-import Login from './components/Login'
-import Home from './components/Home'
-import ForgotPassword from './components/ForgotPassword'
-import ResetPassword from './components/ResetPassword'
-import Dashboard from './components/Dashboard'
-import Navbar from './components/Navbar'
-import Readbooks from './components/ReadBook'
-import BooksSearch from './components/CandAsearch'
-import FavPage from './components/Favourite'
-import FeedbackForm from './components/Feedback'
-import Profile from './components/Profile'
-
-
+// App.js
+import React from 'react';
+import BookList from './components/CandAsearch';
+import Login from './components/Login'; 
+import Front from './components/Home';
+import Award from './components/AwardBooks';
+import FeedForm from './components/Feedback';
+import FeedList from './components/FeedbackList';
+import Reader from './components/ReadBook';
+import Profile from './components/Profile';
+import Favorite from './components/Favourite';
+import Recommendations from './components/Recommendation';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
+  const userId = localStorage.getItem('userId'); // Retrieve userId
 
   return (
-   
-    <BrowserRouter>
-    
-    <Routes>
-    
-      <Route path='/' element={<Signup/>}></Route>
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/forgotpassword' element={<ForgotPassword/>}></Route>
-      <Route path='/resetpassword/:token' element={<ResetPassword/>}></Route>
-      </Routes>
-      <Navbar/>
-      <Routes>
-
-      <Route path='/home' element={<Home/>}></Route>
-      <Route path='/dashboard' element={<Dashboard/>}></Route>
-      <Route path='/read-books' element={<Readbooks/>}></Route>
-      <Route path='/search-books' element={<BooksSearch/>}></Route>
-      <Route path='/favourites' element={<FavPage/>}></Route>
-      <Route path='/feedback' element={<FeedbackForm/>}></Route>
-      <Route path='/profile-settings' element={<Profile/>}></Route>
-
-
-
-    </Routes>
-    </BrowserRouter>
-  )
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path='/forgot-password' element={<ForgotPassword/>}></Route>
+          <Route path='/resetpassword/:token' element={<ResetPassword/>}></Route>
+          <Route path="/book" element={<BookList />} />
+          <Route path="/front" element={<Front />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/award" element={<Award />} />
+          <Route path="/feedform" element={<FeedForm />} />
+          <Route path="/feedback" element={<FeedList />} />
+          <Route path="/bookreader" element={<Reader />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/recommendations" element={<Recommendations userId={userId} />} />
+          
+        </Routes>
+      </Router>
+  );
 }
 
-export default App
+export default App;

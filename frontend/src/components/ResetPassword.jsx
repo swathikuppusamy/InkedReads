@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import bgImage from '../assets/books-shelf.jpg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
 
     
     const [password,setPassword]=useState('');
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:3000/auth/reset-password/'+token,{password}).then(response=>{
+        axios.post('http://localhost:5057/auth/reset-password/'+token,{password}).then(response=>{
            // console.log(response)
            if(response.data.status)
            {
@@ -62,4 +62,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ResetPassword

@@ -1,6 +1,6 @@
-// routes/favourite.js
+// routes/favorites.js
 import express from 'express';
-import Favorite from '../models/FavouriteBook.js';
+import Favorite from '../models/favoriteBook.js';
 
 const router = express.Router();
 
@@ -29,7 +29,6 @@ router.get('/:userId', async (req, res) => {
     res.status(200).json(favorites);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching favorite books', error });
-    console.log(error)
   }
 });
 

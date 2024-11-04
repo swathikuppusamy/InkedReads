@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar.jsx';
 
-
-const FavPage = () => {
+const FavoritesPage = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +9,6 @@ const FavPage = () => {
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
-    console.log(storedUserId)
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
@@ -26,22 +24,21 @@ const FavPage = () => {
           setLoading(true);
           const response = await fetch(`http://localhost:5057/favorites/${userId}`);
           if (!response.ok) {
-            throw new Error(`Failed to fetch favorites: ${response.status} ${response.statusText}`);
+            throw new Error('Failed to fetch favorites');
           }
           const data = await response.json();
           setFavorites(data);
         } catch (err) {
-          console.error('Error fetching favorites:', err);
           setError(err.message);
         } finally {
           setLoading(false);
         }
       };
-  
+
       fetchFavorites();
     }
   }, [userId]);
-  
+
   const handleDelete = async (favoriteId) => {
     try {
       const response = await fetch(`http://localhost:5057/favorites/${favoriteId}`, {
@@ -60,41 +57,47 @@ const FavPage = () => {
   };
 
   if (loading) {
-    return <p>Loading favorites...</p>;
+    return <p className="text-center text-lg">Loading favorites...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p className="text-center text-lg text-red-500">Error: {error}</p>;
   }
 
   return (
-    <div>
-  
-    <div className="fav-page">
-      <h2>Your Favorite Books</h2>
-      {favorites.length === 0 ? (
-        <p>No favorites found.</p>
-      ) : (
-        <div className="fav-book-list">
-          {favorites.map((favorite) => (
-            <div key={favorite._id} className="fav-book-item">
-              <img src={favorite.book.thumbnail} alt={favorite.book.title} className="book-image" />
-              <div className="book-details">
-                <h3>{favorite.book.title}</h3>
-                <p><strong>Author:</strong> {favorite.book.authors.join(', ')}</p>
-                <p><strong>Published:</strong> {favorite.book.publishedDate}</p>
-                <button className="fav-delete-button" onClick={() => handleDelete(favorite._id)}>
-                  Remove
-                </button>
+    <div className="bg-gray-100 min-h-screen ">
+      <Navbar />
+      <div className="mt-6 max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md">
+        <h2 className="text-3xl font-semibold text-center mb-6">Your Favourite Books</h2>
+        {favorites.length === 0 ? (
+          <p className="text-center">No favorites found.</p>
+        ) : (
+          <div className="space-y-6">
+            {favorites.map((favorite) => (
+              <div key={favorite._id} className="flex bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
+                <img 
+                  src={favorite.book.thumbnail} 
+                  alt={favorite.book.title} 
+                  className="w-24 h-32 rounded-md mr-4"
+                />
+                <div className="flex-grow">
+                  <h3 className="text-lg font-semibold">{favorite.book.title}</h3>
+                  <p className="text-gray-700"><strong>Author:</strong> {favorite.book.authors.join(', ')}</p>
+                  <p className="text-gray-700"><strong>Published:</strong> {favorite.book.publishedDate}</p>
+                  <button 
+                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200" 
+                    onClick={() => handleDelete(favorite._id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-</div>
-      
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default FavPage;
+export default FavoritesPage;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar.jsx';
 
 const FeedbackForm = () => {
     const [formData, setFormData] = useState({
@@ -6,7 +7,7 @@ const FeedbackForm = () => {
         author: '',
         rating: 1,
         comments: '',
-        reviewDate: ''  // Add reviewDate field
+        reviewDate: ''
     });
 
     const handleChange = (e) => {
@@ -17,8 +18,7 @@ const FeedbackForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Capture the current date when submitting feedback
-        const currentDate = new Date().toISOString();  // Capture in ISO format
+        const currentDate = new Date().toISOString();
         const updatedFormData = { ...formData, reviewDate: currentDate };
 
         try {
@@ -27,7 +27,7 @@ const FeedbackForm = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedFormData)  // Send the updated form data with reviewDate
+                body: JSON.stringify(updatedFormData)
             });
 
             if (response.ok) {
@@ -43,65 +43,69 @@ const FeedbackForm = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white rounded-lg shadow-md p-6 w-96">
-                <h2 className="text-2xl font-semibold mb-4">Submit Feedback</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Book Title:</label>
-                        <input
-                            type="text"
-                            name="bookTitle"
-                            value={formData.bookTitle}
-                            onChange={handleChange}
-                            required
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Author:</label>
-                        <input
-                            type="text"
-                            name="author"
-                            value={formData.author}
-                            onChange={handleChange}
-                            required
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Rating:</label>
-                        <select
-                            name="rating"
-                            value={formData.rating}
-                            onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Comments:</label>
-                        <textarea
-                            name="comments"
-                            value={formData.comments}
-                            onChange={handleChange}
-                            required
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                        Submit
-                    </button>
-                </form>
+        <div>
+            <Navbar />
+            <div className="bg-gray-800  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-md w-full bg-gray-800 p-2 rounded-lg shadow-md">
+                    <h2 className="text-center text-4xl font-md text-white mb-6">Submit Feedback</h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200">Book Title:</label>
+                            <input
+                                type="text"
+                                name="bookTitle"
+                                value={formData.bookTitle}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 px-3 py-2 bg-gray-900 text-white border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200">Author:</label>
+                            <input
+                                type="text"
+                                name="author"
+                                value={formData.author}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 px-3 py-2 bg-gray-900 text-white border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200">Rating:</label>
+                            <select
+                                name="rating"
+                                value={formData.rating}
+                                onChange={handleChange}
+                                className="mt-1 px-3 py-2 bg-gray-900 text-white border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+                            >
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200">Comments:</label>
+                            <textarea
+                                name="comments"
+                                value={formData.comments}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 px-3 py-2 bg-gray-900 text-white border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full h-24 resize-none"
+                            ></textarea>
+                        </div>
+                        <div>
+                            <button
+                                type="submit"
+                                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

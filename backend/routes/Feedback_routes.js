@@ -1,4 +1,3 @@
-// routes/feedback.js
 import express from 'express';
 import Feedback from '../models/Feedback.js';
 import dotenv from 'dotenv';
