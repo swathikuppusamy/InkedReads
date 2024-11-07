@@ -1,39 +1,47 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar.jsx";
+import img1 from "../assets/book-dlight.jpg";
+import img2 from "../assets/img-1.jpg";
+import img3 from "../assets/img-9.jpg";
+import img4 from "../assets/img-3.jpg";
+import img5 from "../assets/img-5.jpg";
+import img6 from "../assets/img-2.jpg";
+import img7 from "../assets/imgal-4.jpg";
+import img8 from "../assets/books-nlight.jpg";
 
 const FrontPage = () => {
   const quotes = [
     {
       text: "A room without books is like a body without a soul. – Marcus Tullius Cicero",
-      bgImage: "https://cdn.pixabay.com/photo/2015/06/02/12/59/book-794978_640.jpg", // Example URL, you can replace with actual URLs
+      bgImage: img1,
     },
     {
       text: "So many books, so little time. – Frank Zappa",
-      bgImage: "https://cdn.pixabay.com/photo/2014/08/16/18/17/book-419589_640.jpg",
+      bgImage: img2,
     },
     {
       text: "The only thing that you absolutely have to know is the location of the library. – Albert Einstein",
-      bgImage: "https://cdn.pixabay.com/photo/2016/03/27/19/32/book-1283865_640.jpg",
+      bgImage: img3,
     },
     {
       text: "If you only read the books that everyone else is reading, you can only think what everyone else is thinking. – Haruki Murakami",
-      bgImage: "https://cdn.pixabay.com/photo/2019/02/15/11/04/book-3998252_640.jpg.",
+      bgImage: img4,
     },
     {
       text: "Books are a uniquely portable magic. – Stephen King",
-      bgImage: "https://cdn.pixabay.com/photo/2021/06/07/16/50/woman-6318447_640.jpg",
+      bgImage: img5,
     },
     {
       text: "Good friends, good books, and a sleepy conscience: this is the ideal life. – Mark Twain",
-      bgImage: "https://cdn.pixabay.com/photo/2016/05/28/07/05/book-1421097_640.jpg",
+      bgImage: img6,
     },
     {
       text: "Libraries were full of ideas – perhaps the most dangerous and powerful of all weapons. – Sarah J. Maas",
-      bgImage: "https://cdn.pixabay.com/photo/2022/01/16/19/01/candle-6942931_640.jpg",
+      bgImage: img7,
     },
     {
       text: "Reading is essential for those who seek to rise above the ordinary. – Jim Rohn",
-      bgImage: "https://cdn.pixabay.com/photo/2022/02/17/10/21/book-7018452_640.jpg",
+      bgImage: img8,
     },
   ];
 

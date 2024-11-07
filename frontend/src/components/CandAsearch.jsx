@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar.jsx';
 
@@ -10,7 +12,8 @@ const BooksSearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBooks, setTotalBooks] = useState(0);
   const booksPerPage = 12;
-const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
+  const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
+
 
   const userId = localStorage.getItem('userId');
 
@@ -94,6 +97,22 @@ const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
     });
   };
 
+  // const handleWhatsAppShare = (book) => {
+  //   const message = `Check out this book: ${book.volumeInfo.title} by ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown author'}. Find out more here: ${book.volumeInfo.webReaderLink || 'No link available'}`;
+  //   const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  //   window.open(url, '_blank');
+  // };
+
+  const handleWhatsAppShare = (book) => {
+    const title = book.volumeInfo.title || "Unknown title";
+    const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : "Unknown author";
+    const link = book.volumeInfo.webReaderLink || "https://books.google.com/";
+  
+    const message = `Check out this book: ${title} by ${authors}. Find out more here: ${link}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+  
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -186,6 +205,13 @@ const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
                     >
                       ❤️ Add to Favorites
                     </button>
+                    
+                    <button
+                      onClick={() => handleWhatsAppShare(book)}
+                      className="mt-4 px-2 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                    >
+                      📲 Share on WhatsApp
+                    </button>
                   </div>
                 );
               })}
@@ -196,7 +222,7 @@ const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
               <button
                 onClick={() => handlePageChange('prev')}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 disabled:bg-gray-200"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
               >
                 Previous
               </button>
@@ -204,7 +230,7 @@ const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
               <button
                 onClick={() => handlePageChange('next')}
                 disabled={currentPage === Math.ceil(totalBooks / booksPerPage)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 disabled:bg-gray-200"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
               >
                 Next
               </button>

@@ -66,34 +66,39 @@ const Recommendations = ({ userId }) => {
                 ) : recommendedBooks.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {recommendedBooks.map((book, index) => (
-                            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-                                <a 
-                                    href={book.volumeInfo.infoLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x192?text=No+Cover'}
-                                        alt={book.volumeInfo.title}
-                                        className="w-full h-48 object-cover"
-                                    />
-                                    <div className="p-4">
-                                        <h2 className="text-lg font-semibold">{book.volumeInfo.title}</h2>
-                                        <p className="text-sm text-gray-600">
-                                            by {book.volumeInfo.authors?.join(', ') || 'Unknown Author'}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
-                                            {book.volumeInfo.categories?.join(', ') || 'No categories available'}
-                                        </p>
-                                    </div>
-                                </a>
-                                <button 
-                                    className="w-full bg-blue-500 text-white py-2 rounded-b-lg hover:bg-blue-600"
-                                    onClick={() => handleAddToFavorites(book)}
-                                >
-                                    ❤️ Add to Favorites
-                                </button>
-                            </div>
+                            <div
+                            key={index}
+                            className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between h-full"
+                        >
+                            <a 
+                                href={book.volumeInfo.infoLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-grow"
+                            >
+                                <img
+                                    src={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x192?text=No+Cover'}
+                                    alt={book.volumeInfo.title}
+                                    className="w-full h-48 object-cover"
+                                />
+                                <div className="p-4">
+                                    <h2 className="text-lg font-semibold">{book.volumeInfo.title}</h2>
+                                    <p className="text-sm text-gray-600">
+                                        by {book.volumeInfo.authors?.join(', ') || 'Unknown Author'}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {book.volumeInfo.categories?.join(', ') || 'No categories available'}
+                                    </p>
+                                </div>
+                            </a>
+                            <button 
+                                className="mt-4 px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                onClick={() => handleAddToFavorites(book)}
+                            >
+                                ❤️ Add to Favorites
+                            </button>
+                        </div>
+                        
                         ))}
                     </div>
                 ) : (
