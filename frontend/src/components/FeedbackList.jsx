@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar.jsx';
 
@@ -67,7 +68,7 @@ const FeedbackList = () => {
                 {filteredFeedbacks.length > 0 ? (
                     filteredFeedbacks.map(feedback => (
                         <div key={feedback._id} className="bg-gray-800 p-6 rounded-lg shadow-lg mb-4">
-                            <h4 className="text-xl font-semibold mb-2">{feedback.bookTitle} by {feedback.author}</h4>
+                            <h4 className="text-xl font-semibold mb-2 text-white">{feedback.bookTitle} by {feedback.author}</h4>
                             <p className="text-yellow-400 font-semibold">Rating: {feedback.rating}</p>
                             <p className="text-gray-300 mt-2">{feedback.comments}</p>
                             <p className="text-sm text-gray-500 mt-4">Submitted on: {formatDate(feedback.reviewDate)}</p>
