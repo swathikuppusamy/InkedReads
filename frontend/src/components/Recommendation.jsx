@@ -29,30 +29,33 @@ const Recommendations = ({ userId }) => {
 
     const handleAddToFavorites = (book) => {
         const bookData = {
-            id: book.id,
-            title: book.volumeInfo.title,
-            authors: book.volumeInfo.authors || [],
-            publisher: book.volumeInfo.publisher || 'Unknown',
-            publishedDate: book.volumeInfo.publishedDate || 'Unknown',
-            thumbnail: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '',
-            webReaderLink: book.volumeInfo.webReaderLink || ''
+          id: book.id,
+          title: book.volumeInfo.title,
+          authors: book.volumeInfo.authors || [],
+          publisher: book.volumeInfo.publisher || 'Unknown',
+          publishedDate: book.volumeInfo.publishedDate || 'Unknown',
+          thumbnail: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '',
+          webReaderLink: book.volumeInfo.webReaderLink || ''
         };
-
+    
         fetch('http://localhost:5057/favorites', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId, book: bookData })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId,
+            book: bookData
+          })
         })
         .then(response => response.json())
         .then(data => {
-            alert('Book added to favorites');
+          alert('Book added to favorites');
         })
         .catch(error => {
-            console.error('Error adding book to favorites:', error);
+          console.error('Error adding book to favorites:', error);
         });
-    };
+      };
 
     return (
         <div className="min-h-screen bg-gray-100">
