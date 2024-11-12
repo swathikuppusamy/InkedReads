@@ -32,7 +32,7 @@ const Navbar = () => {
     <nav className='bg-gray-700 py-5 '>
       <div className='flex justify-between items-center text-white px-6 md:px-20'>
         <div>
-          <span className='text-3xl font-bold flex items-center'><FaBook className='mr-2' />InkedReads</span>
+          <span className='text-3xl font-bold flex items-center'><FaBook className='mr-2' /><Link to='/front'>InkedReads</Link></span>
         </div>
         
         {/* Desktop Links */}

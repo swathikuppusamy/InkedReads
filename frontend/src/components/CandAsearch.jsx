@@ -1,6 +1,5 @@
-
-
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from './Navbar.jsx';
 
 const BooksSearch = () => {
@@ -13,7 +12,6 @@ const BooksSearch = () => {
   const [totalBooks, setTotalBooks] = useState(0);
   const booksPerPage = 12;
   const apiKey = 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4';
-
 
   const userId = localStorage.getItem('userId');
 
@@ -29,42 +27,6 @@ const BooksSearch = () => {
     e.preventDefault();
     setCurrentPage(1);
     fetchBooks(query, 0);
-  };
-
-  const fetchBooks = (query, startIndex) => {
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${booksPerPage}&key=${apiKey}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.items) {
-          setBooks(data.items);
-          setTotalBooks(Math.min(data.totalItems, 100));
-          setError(null);
-        } else {
-          setBooks([]);
-          setError('No books found');
-        }
-      })
-      .catch((error) => {
-        setError('Error fetching books');
-        console.error('Error fetching books:', error);
-      });
-  };
-
-  useEffect(() => {
-    if (selectedCategory || selectedAuthor) {
-      const query = selectedCategory ? `subject:${selectedCategory}` : `inauthor:${selectedAuthor}`;
-      fetchBooks(query, (currentPage - 1) * booksPerPage);
-    } else {
-      setBooks([]);
-    }
-  }, [selectedCategory, selectedAuthor, currentPage]);
-
-  const handlePageChange = (direction) => {
-    if (direction === 'next' && currentPage < Math.ceil(totalBooks / booksPerPage)) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    } else if (direction === 'prev' && currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
   };
 
   const handleAddToFavorites = (book) => {
@@ -96,13 +58,6 @@ const BooksSearch = () => {
       console.error('Error adding book to favorites:', error);
     });
   };
-
-  // const handleWhatsAppShare = (book) => {
-  //   const message = `Check out this book: ${book.volumeInfo.title} by ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown author'}. Find out more here: ${book.volumeInfo.webReaderLink || 'No link available'}`;
-  //   const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-  //   window.open(url, '_blank');
-  // };
-
   const handleWhatsAppShare = (book) => {
     const title = book.volumeInfo.title || "Unknown title";
     const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : "Unknown author";
@@ -113,11 +68,41 @@ const BooksSearch = () => {
     window.open(url, '_blank');
   };
   
+
+  const fetchBooks = (query, startIndex) => {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${booksPerPage}&key=${apiKey}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.items) {
+          setBooks(data.items);
+          setTotalBooks(Math.min(data.totalItems, 100));
+          setError(null);
+        } else {
+          setBooks([]);
+          setError('No books found');
+        }
+      })
+      .catch((error) => {
+        setError('Error fetching books');
+        console.error('Error fetching books:', error);
+      });
+  };
+
+  useEffect(() => {
+    if (selectedCategory || selectedAuthor) {
+      const query = selectedCategory ? `subject:${selectedCategory}` : `inauthor:${selectedAuthor}`;
+      fetchBooks(query, (currentPage - 1) * booksPerPage);
+    } else {
+      setBooks([]);
+    }
+  }, [selectedCategory, selectedAuthor, currentPage]);
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="flex text-center">
         <div className="w-1/4 p-4 bg-white shadow-md">
+          {/* Categories and Authors Filter */}
           <h2 className="text-lg font-semibold mb-4">Categories</h2>
           <ul className="space-y-2">
             {categories.map((category, index) => (
@@ -183,7 +168,7 @@ const BooksSearch = () => {
               books.map((book, index) => {
                 const { title, authors, publisher, publishedDate, imageLinks, webReaderLink } = book.volumeInfo;
                 return (
-                  <div key={index} className="p-4 bg-white shadow-md rounded-lg">
+                  <Link to={`/book/${book.id}`} key={index} className="p-4 bg-white shadow-md rounded-lg">
                     {imageLinks && imageLinks.thumbnail && (
                       <img src={imageLinks.thumbnail} alt={`Cover of ${title}`} className="w-full h-48 object-cover rounded-md" />
                     )}
@@ -193,49 +178,29 @@ const BooksSearch = () => {
                     <p className="text-gray-600"><strong>Publisher:</strong> {publisher || 'No publisher'}</p>
                     <p className="text-gray-600"><strong>Published Date:</strong> {publishedDate || 'No published date'}</p>
 
-                    {webReaderLink && (
-                      <a href={webReaderLink} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline mt-2 inline-block">
-                        Read Online
-                      </a>
-                    )}
-
                     <button
-                      onClick={() => handleAddToFavorites(book)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleAddToFavorites(book);
+                      }}
                       className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                     >
                       ❤️ Add to Favorites
                     </button>
-                    
+
                     <button
-                      onClick={() => handleWhatsAppShare(book)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleWhatsAppShare(book);
+                      }}
                       className="mt-4 px-2 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
                     >
                       📲 Share on WhatsApp
                     </button>
-                  </div>
+                  </Link>
                 );
               })}
           </div>
-
-          {totalBooks > booksPerPage && (
-            <div className="flex items-center justify-between mt-8">
-              <button
-                onClick={() => handlePageChange('prev')}
-                disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span>Page {currentPage} of {Math.ceil(totalBooks / booksPerPage)}</span>
-              <button
-                onClick={() => handlePageChange('next')}
-                disabled={currentPage === Math.ceil(totalBooks / booksPerPage)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
