@@ -102,10 +102,13 @@ router.post('/forgot-password', async (req, res) => {
             return res.json({ message: "User not registered" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JSON_KEY, { expiresIn: '5m' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
 
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+           
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
             auth: {
                 user: 'swathikuppusamy2005@gmail.com',
                 pass: 'hdoq zvsi wsbs kajg',
@@ -137,7 +140,7 @@ router.post('/reset-password/:token',async(req,res)=>{
     const {token}=req.params;
     const {password}=req.body;
     try{
-        const decoded = await jwt.verify(token,process.env.JSON_KEY)
+        const decoded = await jwt.verify(token,process.env.JWT_SECRET)
         const id=decoded.id
         const hashPassword=await bcrypt.hash(password,10)
         await User.findByIdAndUpdate({_id:id},{password:hashPassword})

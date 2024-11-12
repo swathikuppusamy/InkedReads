@@ -13,12 +13,12 @@ const ResetPassword = () => {
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:5057/auth/reset-password/'+token,{password}).then(response=>{
+        axios.post('http://localhost:5057/api/auth/reset-password/'+token,{password}).then(response=>{
            // console.log(response)
            if(response.data.status)
            {
-            //alert("Check your mail for password reset link")
-           navigate('/login')
+            alert("Your password has been resetted successfully")
+           navigate('/')
            }
         }).catch(err=>{
             console.log(err)
