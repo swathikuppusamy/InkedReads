@@ -58,8 +58,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true })); // For URL-encod
 
 // Connect to MongoDB Atlas
 mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    
 })
 .then(() => console.log('Connected to MongoDB Atlas'))
 .catch(err => console.error('Error connecting to MongoDB Atlas:', err));
