@@ -1,6 +1,6 @@
 import axios from "axios";
 const base=axios.create({
-    baseURL:'http://localhost:5057/',
+    baseURL:'https://inkedreads-backend.onrender.com/',
     headers:{
         'Content-Type':'application/json',
     },
