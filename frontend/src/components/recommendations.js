@@ -1,3 +1,7 @@
+import axios from '../utils/axiosConfig.js';
+
+
+
 const fetchRecommendedBooks = async (profile) => {
     const { favoriteBooks, favoriteAuthors, favoriteGenres, themes } = profile;
 
@@ -40,19 +44,18 @@ const fetchRecommendedBooks = async (profile) => {
         console.log('Executing Search Query:', query); // Log each query separately
 
         try {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodedQuery}&key=AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4`);
+            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes`, {
+                params: {
+                    q: query,
+                    key: 'AIzaSyB1ZDjfU1JjNa8SE57ojxvCfQiHrBbCPy4'
+                }
+            });
 
-            // Check if the response is ok
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Google Books API response:', data); // Log the API response
+            console.log('Google Books API response:', response.data); // Log the API response
 
             // Add the fetched books to the list, if available
-            if (data.items && data.items.length) {
-                allBooks.push(...data.items);
+            if (response.data.items && response.data.items.length) {
+                allBooks.push(...response.data.items);
             }
         } catch (error) {
             console.error('Error fetching recommended books:', error);

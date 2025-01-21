@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/axiosConfig.js';
 import React, { useState } from 'react'
 import bgImage from '../assets/books-shelf.jpg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 
     // const handleSubmit=(e)=>{
     //     e.preventDefault()
-    //     axios.post('http://localhost:3000/auth/forgot-password',{email}).then(response=>{
+    //     axios.post('auth/forgot-password',{email}).then(response=>{
     //        // console.log(response)
     //        if(response.data.status)
     //        {
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     // }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5057/api/auth/forgot-password', { email })
+        axios.post('api/auth/forgot-password', { email })
             .then(response => {
                 if (response.data.status) {
                     alert("Check your email for the password reset link");

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar.jsx';
+import axios from '../utils/axiosConfig.js';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -7,39 +8,39 @@ function App() {
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false); // Modal visibility state
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
     setMessage('');
     setBookDetails(null);
     setShowModal(false); // Hide modal on new search
 
-    // Fetch data from Gutendex API
-    fetch(`https://gutendex.com/books?search=${encodeURIComponent(query)}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.results.length > 0) {
-          const book = data.results[0];
-          const title = book.title;
-          const authors = book.authors.map(author => author.name).join(', ');
-          const description = (book.translations && book.translations.length > 0) 
-            ? book.translations[0].description 
-            : 'No description available.';
-          const txtUrl = book.formats['text/plain; charset=us-ascii'];
+    try {
+      // Axios call to Gutendex API
+      const response = await axios.get(`https://gutendex.com/books?search=${encodeURIComponent(query)}`);
+      const data = response.data;
 
-          setBookDetails({
-            title,
-            authors,
-            description,
-            txtUrl
-          });
-        } else {
-          setMessage('No books found for the search query.');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching book data:', error);
-        setMessage('Error fetching book data. Please try again later.');
-      });
+      if (data.results.length > 0) {
+        const book = data.results[0];
+        const title = book.title;
+        const authors = book.authors.map((author) => author.name).join(', ');
+        const description = (book.translations && book.translations.length > 0) 
+          ? book.translations[0].description 
+          : 'No description available.';
+        const txtUrl = book.formats['text/plain; charset=us-ascii'];
+
+        setBookDetails({
+          title,
+          authors,
+          description,
+          txtUrl,
+        });
+      } else {
+        setMessage('No books found for the search query.');
+      }
+    } catch (error) {
+      console.error('Error fetching book data:', error);
+      setMessage('Error fetching book data. Please try again later.');
+    }
   };
 
   const handleOpenModal = () => {
@@ -51,7 +52,7 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-100  min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
       <Navbar />
       <div className="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">Search for Books to Read</h1>

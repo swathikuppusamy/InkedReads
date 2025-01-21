@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from '../utils/axiosConfig.js';
 import Navbar from './Navbar.jsx';
 
 const FeedbackForm = () => {
@@ -22,15 +23,9 @@ const FeedbackForm = () => {
         const updatedFormData = { ...formData, reviewDate: currentDate };
 
         try {
-            const response = await fetch('http://localhost:5057/api/feedback', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedFormData)
-            });
+            const response = await axios.post('api/feedback', updatedFormData);
 
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 alert('Feedback submitted successfully!');
                 setFormData({ bookTitle: '', author: '', rating: 1, comments: '', reviewDate: '' });
             } else {
@@ -45,7 +40,7 @@ const FeedbackForm = () => {
     return (
         <div>
             <Navbar />
-            <div className="bg-gray-800  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="bg-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full bg-gray-800 p-2 rounded-lg shadow-md">
                     <h2 className="text-center text-4xl font-md text-white mb-6">Submit Feedback</h2>
                     <form onSubmit={handleSubmit} className="space-y-6">

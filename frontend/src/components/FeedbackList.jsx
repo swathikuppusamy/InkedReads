@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import axios from '../utils/axiosConfig.js';
 import Navbar from './Navbar.jsx';
 
 const FeedbackList = () => {
@@ -10,9 +11,9 @@ const FeedbackList = () => {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const response = await fetch('http://localhost:5057/api/feedback');
-                if (response.ok) {
-                    const data = await response.json();
+                const response = await axios.get('api/feedback');
+                if (response.status === 200) {
+                    const data = response.data;
                     setFeedbacks(data);
                     setFilteredFeedbacks(data);
                 } else {

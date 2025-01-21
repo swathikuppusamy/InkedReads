@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/axiosConfig.js';
 import React, { useState } from 'react';
 import { FaHome, FaPhone, FaInfoCircle, FaImage, FaBars, FaTimes, FaBook, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link
@@ -14,7 +14,7 @@ const Navbar = () => {
 
 
     const handleLogout=()=>{
-        axios.get('http://localhost:5057/api/auth/logout')
+        axios.get('api/auth/logout')
         .then(res=>{
             if(res.data.status){
                 

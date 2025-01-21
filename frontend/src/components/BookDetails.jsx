@@ -1,6 +1,7 @@
 // BookDetails.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from '../utils/axiosConfig.js';
 import coverImg from '../assets/img-1.jpg';
 import { FaArrowLeft } from 'react-icons/fa';
 
@@ -15,8 +16,8 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`${GOOGLE_BOOKS_API_URL}${id}`);
-        const data = await response.json();
+        const response = await axios.get(`${GOOGLE_BOOKS_API_URL}${id}`); // Use Axios for the API request
+        const data = response.data;
 
         if (data) {
           const volumeInfo = data.volumeInfo;
@@ -35,7 +36,7 @@ const BookDetails = () => {
         setError(true);
       }
     };
-    
+
     fetchBookDetails();
   }, [id]);
 

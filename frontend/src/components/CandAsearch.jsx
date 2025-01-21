@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from '../utils/axiosConfig.js';
 import Navbar from './Navbar.jsx';
 
 const BooksSearch = () => {
@@ -40,24 +41,18 @@ const BooksSearch = () => {
       webReaderLink: book.volumeInfo.webReaderLink || ''
     };
 
-    fetch('http://localhost:5057/favorites', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId,
-        book: bookData
-      })
+    axios.post('favorites', {
+      userId,
+      book: bookData
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(() => {
       alert('Book added to favorites');
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error adding book to favorites:', error);
     });
   };
+
   const handleWhatsAppShare = (book) => {
     const title = book.volumeInfo.title || "Unknown title";
     const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : "Unknown author";
@@ -67,25 +62,31 @@ const BooksSearch = () => {
     const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
-  
 
   const fetchBooks = (query, startIndex) => {
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${booksPerPage}&key=${apiKey}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.items) {
-          setBooks(data.items);
-          setTotalBooks(Math.min(data.totalItems, 100));
-          setError(null);
-        } else {
-          setBooks([]);
-          setError('No books found');
-        }
-      })
-      .catch((error) => {
-        setError('Error fetching books');
-        console.error('Error fetching books:', error);
-      });
+    axios.get(`https://www.googleapis.com/books/v1/volumes`, {
+      params: {
+        q: query,
+        startIndex,
+        maxResults: booksPerPage,
+        key: apiKey
+      }
+    })
+    .then((response) => {
+      const data = response.data;
+      if (data.items) {
+        setBooks(data.items);
+        setTotalBooks(Math.min(data.totalItems, 100));
+        setError(null);
+      } else {
+        setBooks([]);
+        setError('No books found');
+      }
+    })
+    .catch((error) => {
+      setError('Error fetching books');
+      console.error('Error fetching books:', error);
+    });
   };
 
   useEffect(() => {

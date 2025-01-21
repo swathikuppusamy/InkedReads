@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from '../utils/axiosConfig.js';
 import Navbar from './Navbar.jsx';
 
 const FavoritesPage = () => {
@@ -25,11 +26,8 @@ const FavoritesPage = () => {
       const fetchFavorites = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:5057/favorites/${userId}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch favorites');
-          }
-          const data = await response.json();
+          const response = await axios.get(`favorites/${userId}`);
+          const data = response.data;
 
           // Load saved notes and categories from localStorage
           const savedData = JSON.parse(localStorage.getItem(`favoritesData_${userId}`)) || {};
@@ -53,13 +51,7 @@ const FavoritesPage = () => {
 
   const handleDelete = async (favoriteId) => {
     try {
-      const response = await fetch(`http://localhost:5057/favorites/${favoriteId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete favorite');
-      }
+      await axios.delete(`http://localhost:5057/favorites/${favoriteId}`);
 
       // Remove from favorites and localStorage
       setFavorites((prevFavorites) => prevFavorites.filter(favorite => favorite._id !== favoriteId));
@@ -106,91 +98,94 @@ const FavoritesPage = () => {
   const filteredFavorites = sortedFavorites.filter(fav => categoryFilter === 'All' || fav.category === categoryFilter);
 
   if (loading) {
-    return <p className="text-center text-lg">Loading favorites...</p>;
-  }
-
-  if (error) {
-    return <p className="text-center text-lg text-red-500">Error: {error}</p>;
+    return (
+      <div>
+        <Navbar />
+        <p className="text-center text-lg">Loading favorites...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen ">
+    <div>
       <Navbar />
-      <div className="mt-6 max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold text-center mb-6">Your Favourite Books</h2>
+      <div className="bg-gray-100 min-h-screen">
+        <div className="mt-6 max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md">
+          <h2 className="text-3xl font-semibold text-center mb-6">Your Favourite Books</h2>
 
-        {/* Sort and Filter Options */}
-        <div className="flex justify-between mb-4">
-          <select 
-            value={sortOrder} 
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="px-4 py-2 border rounded-lg"
-          >
-            <option value="Title">Sort by Title</option>
-            <option value="Author">Sort by Author</option>
-          </select>
+          {/* Sort and Filter Options */}
+          <div className="flex justify-between mb-4">
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="px-4 py-2 border rounded-lg"
+            >
+              <option value="Title">Sort by Title</option>
+              <option value="Author">Sort by Author</option>
+            </select>
 
-          <select 
-            value={categoryFilter} 
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-4 py-2 border rounded-lg"
-          >
-            {categories.map((category) => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-        </div>
-
-        {filteredFavorites.length === 0 ? (
-          <p className="text-center">No favorites found.</p>
-        ) : (
-          <div className="space-y-6">
-            {filteredFavorites.map((favorite) => (
-              <div key={favorite._id} className="flex bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
-                <img 
-                  src={favorite.book.thumbnail} 
-                  alt={favorite.book.title} 
-                  className="w-24 h-32 rounded-md mr-4"
-                />
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold">{favorite.book.title}</h3>
-                  <p className="text-gray-700"><strong>Author:</strong> {favorite.book.authors.join(', ')}</p>
-                  <p className="text-gray-700"><strong>Published:</strong> {favorite.book.publishedDate}</p>
-
-                  {/* Category Selector */}
-                  <div className="mt-2">
-                    <label className="mr-2">Category:</label>
-                    <select
-                      value={favorite.category || 'Want to Read'}
-                      onChange={(e) => handleCategoryChange(favorite._id, e.target.value)}
-                      className="px-2 py-1 border rounded"
-                    >
-                      {categories.slice(1).map((category) => (
-                        <option key={category} value={category}>{category}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Notes Section */}
-                  <textarea
-                    className="w-full p-2 mt-2 border rounded"
-                    placeholder="Add a note..."
-                    value={favorite.note || ''}
-                    onChange={(e) => handleNoteChange(favorite._id, e.target.value)}
-                  />
-
-                  {/* Remove Button */}
-                  <button 
-                    onClick={() => handleDelete(favorite._id)}
-                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="px-4 py-2 border rounded-lg"
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
           </div>
-        )}
+
+          {filteredFavorites.length === 0 ? (
+            <p className="text-center">No favorites found.</p>
+          ) : (
+            <div className="space-y-6">
+              {filteredFavorites.map((favorite) => (
+                <div key={favorite._id} className="flex bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
+                  <img
+                    src={favorite.book.thumbnail}
+                    alt={favorite.book.title}
+                    className="w-24 h-32 rounded-md mr-4"
+                  />
+                  <div className="flex-grow">
+                    <h3 className="text-lg font-semibold">{favorite.book.title}</h3>
+                    <p className="text-gray-700"><strong>Author:</strong> {favorite.book.authors.join(', ')}</p>
+                    <p className="text-gray-700"><strong>Published:</strong> {favorite.book.publishedDate}</p>
+
+                    {/* Category Selector */}
+                    <div className="mt-2">
+                      <label className="mr-2">Category:</label>
+                      <select
+                        value={favorite.category || 'Want to Read'}
+                        onChange={(e) => handleCategoryChange(favorite._id, e.target.value)}
+                        className="px-2 py-1 border rounded"
+                      >
+                        {categories.slice(1).map((category) => (
+                          <option key={category} value={category}>{category}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Notes Section */}
+                    <textarea
+                      className="w-full p-2 mt-2 border rounded"
+                      placeholder="Add a note..."
+                      value={favorite.note || ''}
+                      onChange={(e) => handleNoteChange(favorite._id, e.target.value)}
+                    />
+
+                    {/* Remove Button */}
+                    <button
+                      onClick={() => handleDelete(favorite._id)}
+                      className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

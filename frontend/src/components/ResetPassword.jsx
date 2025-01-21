@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/axiosConfig.js';
 import React, { useState } from 'react'
 import bgImage from '../assets/books-shelf.jpg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +13,7 @@ const ResetPassword = () => {
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:5057/api/auth/reset-password/'+token,{password}).then(response=>{
+        axios.post('api/auth/reset-password/'+token,{password}).then(response=>{
            // console.log(response)
            if(response.data.status)
            {
