@@ -27,7 +27,7 @@ const MONGO_URI = process.env.MONGODB_URL;
 
 // Middleware
 const allowedOrigins = [
-   'https://inkedreads-backend.onrender.com/',
+    'https://inkedreads.netlify.app',
   ...Array.from({length: 65535}, (_, i)=>`http://localhost:${i+1}`)
 ]
 
