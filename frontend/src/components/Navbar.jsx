@@ -57,7 +57,7 @@ const Navbar = () => {
               onClick={toggleDropdown}
               className='flex items-center hover:bg-gray-800 transition-all duration-300 py-1.5 px-4 rounded'
             >
-              <FaUser className='mr-2 mt-1' />
+              <FaUser className='mr-1 mt-1' />
             </button>
             {/* Dropdown Menu */}
             {isDropdownOpen && (

@@ -22,7 +22,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (userId) {
-            axios.get(`/profile/${userId}`)
+            axios.get(`api/profile/${userId}`)
                 .then((response) => {
                     const data = response.data;
                     setProfile({
@@ -71,7 +71,7 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/profile', { userId, ...profile })
+        axios.post('api/profile', { userId, ...profile })
             .then((response) => {
                 alert('Profile updated!');
                 setProfile(response.data);

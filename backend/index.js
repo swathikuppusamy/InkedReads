@@ -27,7 +27,7 @@ const MONGO_URI = process.env.MONGODB_URL;
 
 // Middleware
 const allowedOrigins = [
-    'https://ink-z331.onrender.com',
+   'https://inkedreads-backend.onrender.com/',
   ...Array.from({length: 65535}, (_, i)=>`http://localhost:${i+1}`)
 ]
 
